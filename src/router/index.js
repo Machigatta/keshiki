@@ -5,6 +5,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
+import Screens from '../views/Screens.vue'
 import NotFound from '../components/system/NotFound.vue'
 import NotAllowed from '../components/system/NotAllowed.vue'
 import NoConnection from '../components/system/NoConnection.vue'
@@ -41,9 +42,15 @@ const router = new VueRouter({
       beforeEnter: ifAuthenticated,
     },
     {
-      path: '/Profile',
+      path: '/profile',
       name: 'profile',
       component: Profile,
+      beforeEnter: ifAuthenticated,
+    },
+    {
+      path: '/screens',
+      name: 'screens',
+      component: Screens,
       beforeEnter: ifAuthenticated,
     },
     {
@@ -60,13 +67,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {  
-  if (!to.meta.ignoreBeforeEach) {
+  if (!to.meta.ignoreBeforeEach) {    
     if(!store.getters.isConnected){
       next('/NoConnection')
     }else {
       next();
     }
-      
   }else {
     next()
   }

@@ -43,13 +43,13 @@ const actions = {
 
 const mutations = {
   [NO_CONNECTION]: (state, errnumber) => {
-    localStorage.removeItem('keshiki-instance-buildstate')
+    localStorage.removeItem('keshiki-buildstate')
     state.connectedFlag = ''
     state.connectionStatus = errnumber;
   },
   [CONNECTION_SUCCESS]: (state, resp) => {
     state.connectionStatus = null;
-    localStorage.setItem('keshiki-instance-buildstate',resp.data.meta.buildstate);
+    localStorage.setItem('keshiki-buildstate',resp.data.meta.buildstate);
     state.connectedFlag = resp.data.meta.buildstate
   },
 }

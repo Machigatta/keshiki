@@ -30,12 +30,11 @@ export default {
   created: function () {
     if (this.$store.getters.isAuthenticated) {
       this.$store.dispatch(USER_REQUEST).catch(() => {
-        this.$router.push('/')
+        if (this.$route.path == '/Login') this.$router.push('/')
       })
     }
     this.$store.dispatch(INSTALLER_PING).then(()=>{        
-      if(this.$store.getters.isConnected) this.$router.push('/')
-      
+      if(this.$store.getters.isConnected && this.$route.path == '/Login') this.$router.push('/')
     }).catch(() => {
         if (this.$route.path !== '/NoConnection') this.$router.push('/NoConnection')
     })
