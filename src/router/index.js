@@ -6,6 +6,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import Screens from '../views/Screens.vue'
+import EditScreen from '../views/screen/Edit.vue'
+import DisplayScreen from '../views/screen/Display.vue'
 import NotFound from '../components/system/NotFound.vue'
 import NotAllowed from '../components/system/NotAllowed.vue'
 import NoConnection from '../components/system/NoConnection.vue'
@@ -51,6 +53,18 @@ const router = new VueRouter({
       path: '/screens',
       name: 'screens',
       component: Screens,
+      beforeEnter: ifAuthenticated,
+    },
+    {
+      path: '/screen/:id/edit',
+      name: 'ScreenEdit',
+      component: EditScreen,
+      beforeEnter: ifAuthenticated,
+    },
+    {
+      path: '/screen/:id/Display',
+      name: 'ScreenDisplay',
+      component: DisplayScreen,
       beforeEnter: ifAuthenticated,
     },
     {

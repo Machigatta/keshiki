@@ -17,7 +17,7 @@ const actions = {
   [USER_REQUEST]: ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
       commit(USER_REQUEST)
-      axios.post(ROUTE_PROFILE).then(resp => {
+      axios.get(ROUTE_PROFILE).then(resp => {
         commit(USER_SUCCESS, resp.data.meta)
         resolve(resp);
       }).catch(err => {

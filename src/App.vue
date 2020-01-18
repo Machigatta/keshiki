@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header v-if="isConnected" />
+    <Header v-if="isConnected && isNotScreenView" />
     <main class="Main">
       <section class="container">
         <router-view/>
@@ -25,7 +25,12 @@ export default {
     Header
   },
   computed: {
-    ...mapGetters(["isConnected"])
+    ...mapGetters(["isConnected"]),
+    isNotScreenView () {
+      return this.$route.matched[0] &&
+             this.$route.matched[0].components &&
+             this.$route.matched[0].components.default.name != 'Display'
+    }
   },
   created: function () {
     if (this.$store.getters.isAuthenticated) {
