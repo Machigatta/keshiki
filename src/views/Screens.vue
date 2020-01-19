@@ -1,7 +1,8 @@
 <template>
   <div>
       <div class="Board">
-        <a class="Link BoardLink" v-on:click="createScreen" href="#">
+        <enter-name-modal @onSave="createScreen"/>
+        <a class="Link BoardLink" @click="$modal.show('enter-name')" href="#">
             <font-awesome-icon icon="desktop" class="fa-3x"/>&nbsp;
             <font-awesome-icon icon="plus" class="fa-2x" style="vertical-align:super"/>
         </a>
@@ -44,8 +45,13 @@ import axios from "axios";
 import { ROUTE_SCREENS } from "../store/routes";
 import { STATUS_OFFLINE, STATUS_ONLINE  } from "../utils/status";
 
+import EnterNameModal from '../components/modals/EnterNameModal'
+
 export default {
   name: 'Profile',
+  components: {
+      EnterNameModal
+  },
   data () {
     return {
         screens: [],
@@ -61,18 +67,20 @@ export default {
             console.log(err.data);            
         })
       },
-      createScreen() {
+      createScreen(name, callback){
         axios.put(ROUTE_SCREENS, { 
             payload: {
-                title: "Entrance"
+                title: name
             }
         }).then(resp => {
             this.getScreens();
+            callback(this);
             console.log(resp.data);
         }).catch(err => {
             console.log(err.data);            
         })
       }
+      
   },
   mounted () {
       this.getScreens()

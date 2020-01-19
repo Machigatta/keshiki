@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './router'
 import store from './store'
 import axios from "axios";
+import vmodal from 'vue-js-modal';
 
 if(store.getters.isAuthenticated){
   axios.defaults.headers.common.Authorization = localStorage.getItem("keshikiJWT");
@@ -16,6 +17,15 @@ library.add(faUserTag, faUserSecret, faDesktop, faGlasses, faTools, faKey, faPow
 Vue.config.productionTip = false
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.use(vmodal, {
+  dialog: true,
+  dynamic: true,
+  injectModalsContainer: true,
+  dynamicDefaults: {
+    foo: 'foo'
+  },
+})
 
 new Vue({
   router,
