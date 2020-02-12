@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :show="loading"></loading>
     <form class="login" @submit.prevent="login">
       <h1>Sign in</h1>
       <label>User name</label>
@@ -17,6 +18,7 @@
 <script>
   import {AUTH_REQUEST} from '../../store/actions/auth'
   import { mapGetters } from 'vuex'
+  import loading from "vue-full-loading";
 
   export default {
     name: 'login',
@@ -26,11 +28,16 @@
         password: ''
       }
     },
+    components: {
+      loading
+    },
     computed: {...mapGetters(['authStatus'])},
     methods: {
       login: function () {
+        this.loading = true;
         const { username, password } = this
         this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
+          this.loading = false;
           this.$router.push('/')
         })
       }

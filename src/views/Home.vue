@@ -1,51 +1,42 @@
 <template>
-  <ModuleController v-bind:vdata="view_data" />
+  <div>
+    <h1>Your Active Boards</h1>
+    <ul class="List BoardList">
+        <li v-bind:key="item.id" v-for="item in screens" class="ListItem BoardItem">
+            <h3 class="BoardTitle" v-if="item.status">
+                <a class="Link" v-bind:href="`/screen/${item.id}/edit`">{{item.title}}
+                  <font-awesome-icon class="" v-if="item.protected" icon="key"/></a>   
+            </h3>
+        </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import ModuleController from "../components/ModuleController";
-// import axios from "axios";
+/* eslint-disable no-console */
+import axios from "axios";
+import { ROUTE_SCREENS } from "../store/routes";
 
 export default {
   name: 'Home',
-  components: {
-    ModuleController,
-  },
-  data() {
+  data () {
     return {
-      view_data: [
-        {
-          id:1, 
-          title: "Text",
-          show: true,
-          type: "text"
-        },
-        {
-          id:2,
-          title: "HTML",
-          show: true,
-          type: "html"
-        },
-        {
-          id:3,
-          title: "Feed",
-          show: true,
-          type: "feed"
-        },
-        {
-          id:4,
-          title: "Picture",
-          show: true,
-          type: "picture"
-        },
-        {
-          id:5,
-          title: "Calendar",
-          show: true,
-          type: "calendar"
-        }
-      ]
+        screens: []
     }
-  }
+  },
+  methods: {
+      getScreens() {
+        axios.get(ROUTE_SCREENS).then(resp => {
+            this.screens = resp.data.screens;
+        }).catch(err => {
+            console.log(err.data);            
+        })
+      }
+      
+  },
+  mounted () {
+      this.getScreens()
+  },
+
 }
 </script>

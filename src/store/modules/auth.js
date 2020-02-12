@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from '../actions/auth'
-import { ROUTE_LOGIN, ROUTE_INIT } from '../routes'
+import { ROUTE_LOGIN } from '../routes'
 import { USER_REQUEST } from '../actions/user'
 import axios from "axios";
 

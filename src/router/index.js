@@ -14,6 +14,8 @@ import NoConnection from '../components/system/NoConnection.vue'
 import Login from '../components/auth/login.vue'
 
 import store from '../store'
+import { NOT_INSTALLED_YET  } from "../store/actions/installer";
+import { ROUTE_INIT } from "../store/routes";
 
 Vue.use(VueRouter)
 
@@ -73,24 +75,37 @@ const router = new VueRouter({
       component: Login,
       beforeEnter: ifNotAuthenticated,
     },
-    { path: '/NoConnection', name: 'NoConnection', component: NoConnection, meta: { ignoreBeforeEach: true }  },  
-    { path: '/404', component: NotFound },  
-    { path: '/405', name: 'not_allowed', component: NotAllowed },  
-    { path: '*', redirect: '/404' },  
+    {
+      path: '/initial', name: 'Initial', meta: { ignoreBeforeEach: true }, beforeEnter: (to, from, next) => {
+        if (store.getters.getConnectionStatus == NOT_INSTALLED_YET) {
+          store.dispatch(ROUTE_INIT).then(() => {
+            next('/login')
+          }).catch(() => {
+            next('/NoConnection');
+          })
+          return
+        }
+        next('/NoConnection')
+      }
+    },
+    { path: '/NoConnection', name: 'NoConnection', component: NoConnection, meta: { ignoreBeforeEach: true } },
+    { path: '/404', component: NotFound },
+    { path: '/405', name: 'not_allowed', component: NotAllowed },
+    { path: '*', redirect: '/404' },
   ]
 })
 
-router.beforeEach((to, from, next) => {  
-  if (!to.meta.ignoreBeforeEach) {    
-    if(!store.getters.isConnected){
+router.beforeEach((to, from, next) => {
+  if (!to.meta.ignoreBeforeEach) {
+    if (!store.getters.isConnected) {
       next('/NoConnection')
-    }else {
+    } else {
       next();
     }
-  }else {
+  } else {
     next()
   }
-  
+
 })
 
 export default router

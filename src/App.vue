@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="notes" position="bottom right" />
     <Header v-if="isConnected && isNotScreenView" />
     <main class="Main">
       <section class="container">
